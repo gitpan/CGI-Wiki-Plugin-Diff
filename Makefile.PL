@@ -6,6 +6,7 @@ WriteMakefile(
     'VERSION_FROM'	=> 'Diff.pm', # finds $VERSION
     'PREREQ_PM'		=> {VCS::Lite => '0.05',
     			    CGI::Wiki => '0.44',
+    			    Params::Validate => 0,
     			    }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'Diff.pm', # retrieve abstract from module

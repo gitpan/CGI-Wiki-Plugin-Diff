@@ -1,5 +1,10 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
+0.06  Sat May 15 12:30:07 2004
+	- Looked at Earle's "false positive" problem with word matching
+	- Made internal method calls visible, hence subclassable
+	- changed to use Params::Validate for validation
+
 0.05  Thu Dec 18 23:57:23 2003
 	- Corrected another bug in the diffing. Was not correctly
 	handling words that did not have an immediately following space.

@@ -15,16 +15,17 @@ DEPENDENCIES
 This module requires these other modules and libraries:
 
    Algorithm::Diff
-   VCS::Lite
-   CGI::Wiki
+   VCS::Lite  (version 0.05 or later)
+   CGI::Wiki  (version 0.44 or later)
+   Params::Validate
 
 A database (one of MySQL, PostgreSQL or DBD::SQLite) is needed.
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2003 I. P. Williams (IVORW [at] CPAN {dot} org).
+Copyright (C) 2003-2004 I. P. Williams (IVORW [at] CPAN {dot} org).
 All Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-     
+

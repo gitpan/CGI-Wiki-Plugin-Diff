@@ -2,7 +2,7 @@ use strict;
 use CGI::Wiki;
 use CGI::Wiki::TestConfig::Utilities;
 use Test::More tests =>
-  (1 + 13 * $CGI::Wiki::TestConfig::Utilities::num_stores);
+  (1 + 15 * $CGI::Wiki::TestConfig::Utilities::num_stores);
 
 use_ok( "CGI::Wiki::Plugin::Diff" );
 
@@ -11,7 +11,7 @@ my %stores = CGI::Wiki::TestConfig::Utilities->stores;
 my ($store_name, $store);
 while ( ($store_name, $store) = each %stores ) {
     SKIP: {
-      skip "$store_name storage backend not configured for testing", 13
+      skip "$store_name storage backend not configured for testing", 15
           unless $store;
 
       print "#\n##### TEST CONFIG: Store: $store_name\n#\n";
@@ -36,18 +36,18 @@ while ( ($store_name, $store) = each %stores ) {
       			right_version => 2);
       is( @{$bodydiff{diff}}, 2, "Differ returns 2 elements for body diff");
       is_deeply( $bodydiff{diff}[0], {
-      			left => '',
+      			left => "== Line 0 ==\n",
       			right => "== Line 1 ==\n"},
       		"First element is line number on right");
       is_deeply( $bodydiff{diff}[1], {
       			left => '<span class="diff1">Pub </span>'.
       				'in Clerkenwell with St Peter\'s beer.'.
-      				"<BR />category='Pubs'",
+      				"<br />\n",
       			right => '<span class="diff2">Tiny pub </span>'.
       				'in Clerkenwell with St Peter\'s beer.'.
       				'<span class="diff2"> <br />'.
       				"\nNear Farringdon station</span>".
-      				"<BR />category='Pubs'",
+      				"<br />\n",
       				},
       		"Differences highlights body diff with span tags");
       		
@@ -58,14 +58,12 @@ while ( ($store_name, $store) = each %stores ) {
       			right_version => 3);
       is( @{$metadiff{diff}}, 2, "Differ returns 2 elements for meta diff");
       is_deeply( $metadiff{diff}[0], {
-      			left =>  "== Line 1 ==\n",
-      			right => "== Line 1 ==\n"},
+      			left =>  "== Line 2 ==\n",
+      			right => "== Line 2 ==\n"},
       		"First element is line number on right");
       is_deeply( $metadiff{diff}[1], {
-      			left => "Near Farringdon station".
-      				"<BR />category='Pubs'",
-      			right => "Near Farringdon station".
-      				"<BR />category='Pubs".
+      			left => "category='Pubs'",
+      			right => "category='Pubs".
       				'<span class="diff2">,Real Ale\'<br />'.
       				"\nlocale='Farringdon</span>'",
       				},
@@ -77,15 +75,16 @@ while ( ($store_name, $store) = each %stores ) {
 			left_version => 1,
 			right_version => 2);
         is_deeply( $bodydiff{diff}[0], {
-      			left => "== Line 10 ==\n",
-      			right => "== Line 10 ==\n"},
+      			left => "== Line 11 ==\n",
+      			right => "== Line 11 ==\n"},
       		"Diff finds the right line number on right");
         is_deeply( $bodydiff{diff}[1], {
-        		left => "<BR />metatest='".
+        		left => "metatest='".
         			'<span class="diff1">Moo</span>\'',
-        		right => '<span class="diff2"><br />'.
-        			"\n[[IvorW's Test Page]]<br />\n</span>".
-        			"<BR />metatest='".
+        		right => '<span class="diff2">'.
+        			"[[IvorW's Test Page]]<br />\n".
+        			"<br />\n</span>".
+        			"metatest='".
         			'<span class="diff2">Boo</span>\'',
         			},
         	"Diff scans words correctly");
@@ -95,17 +94,35 @@ while ( ($store_name, $store) = each %stores ) {
 			left_version => 2,
 			right_version => 3);
         is_deeply( $bodydiff{diff}[0], {
-      			left => "== Line 12 ==\n",
-      			right => "== Line 12 ==\n"},
+      			left => "== Line 13 ==\n",
+      			right => "== Line 13 ==\n"},
       		"Diff finds the right line number on right");
         is_deeply( $bodydiff{diff}[1], {
-        		left => "<BR />metatest='".
+        		left => "metatest='".
         			'<span class="diff1">Boo</span>\'',
-        		right => '<span class="diff2"><br />'.
-        			"\n[[Another Test Page]]<br />\n</span>".
-        			"<BR />metatest='".
+        		right => '<span class="diff2">'.
+        			"[[Another Test Page]]<br />\n".
+        			"<br />\n</span>".
+        			"metatest='".
         			'<span class="diff2">Quack</span>\'',
         			},
         	"Diff frames correctly");
+	# Trailing whitespace test
+	%bodydiff = $differ->differences(
+			node => 'Jerusalem Tavern',
+			left_version => 3,
+			right_version => 4);
+        is_deeply( $bodydiff{diff}[0], {
+      			left => "== Line 0 ==\n",
+      			right => "== Line 0 ==\n" },
+      		"Diff finds the right line numbers");
+        is_deeply( $bodydiff{diff}[1], {
+        		left => "Tiny pub in Clerkenwell with St Peter's beer".
+        		        ". <br />\n",
+        		right => "Tiny pub in Clerkenwell with St Peter's beer".
+        			' <span class="diff2">but no food</span>. '.
+        			"<br />\n",
+        			},
+        	"Diff handles trailing whitespace correctly");
     } # end of SKIP
 }

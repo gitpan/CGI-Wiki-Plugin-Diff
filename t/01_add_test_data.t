@@ -46,6 +46,17 @@ Near Farringdon station",
                          }
                        );
 
+      my %j3 = $wiki->retrieve_node( "Jerusalem Tavern");
+
+      $wiki->write_node( "Jerusalem Tavern",
+                         "Tiny pub in Clerkenwell with St Peter's beer but no food. 
+Near Farringdon station",
+                         $j3{checksum},
+                         { category => [ "Pubs", "Real Ale" ],
+                           locale => [ "Farringdon" ]
+                         }
+                       );
+      
       $wiki->write_node( "IvorW",
       			 "
 In real life:  Ivor Williams

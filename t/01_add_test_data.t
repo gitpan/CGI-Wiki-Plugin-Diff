@@ -94,6 +94,20 @@ Ideas & things to work on:
 			   metatest => 'Quack' },
 			);
 
+      $wiki->write_node( "Test",
+      			 "a",
+			 undef,
+			 { },
+			);
+
+      my %i3 = $wiki->retrieve_node( "Test");
+      
+      $wiki->write_node( "Test",
+      			 "a\n",
+			 $i3{checksum},
+			 { },
+			);
+
       pass "$store_name test backend primed with test data";
 
     } # end of SKIP

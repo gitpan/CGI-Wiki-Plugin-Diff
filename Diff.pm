@@ -3,7 +3,7 @@ package CGI::Wiki::Plugin::Diff;
 use strict;
 use warnings;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use base 'CGI::Wiki::Plugin';
 use Algorithm::Diff;
@@ -90,7 +90,7 @@ sub differences {
 sub line_number {
     my $self = shift;
 
-    local ($_) = validate_pos(@_, {type => SCALAR, optional => 1} );
+    local ($_) = validate_pos(@_, {type => SCALAR | UNDEF, optional => 1} );
     return '' unless defined $_;
 
     my $fmt = '"'. $self->{line_number_format} . '"';
@@ -130,7 +130,8 @@ sub content_escape {
 
 sub intradiff {
     my $self = shift;
-    my ($str1,$str2) = validate_pos( @_, {type => SCALAR}, {type => SCALAR});
+    my ($str1,$str2) = validate_pos( @_, {type => SCALAR|UNDEF }, 
+                                         {type => SCALAR|UNDEF });
 
     return (qq{<span class="diff1">$str1</span>},"") unless $str2;
     return ("",qq{<span class="diff2">$str2</span>}) unless $str1;
@@ -301,7 +302,7 @@ B<metadata_separator>
 
 A string which is inserted between each metadata
 field, and also between the contents and the metadata. This defaults to 
-"E<LT>br /E<GT>\n" so as to render each metadata field on a new line.
+"E<lt>br /E<gt>\n" so as to render each metadata field on a new line.
 
 =item *
 B<line_number_format>

@@ -2,7 +2,7 @@ use strict;
 use CGI::Wiki;
 use CGI::Wiki::TestConfig::Utilities;
 use Test::More tests =>
-  (1 + 15 * $CGI::Wiki::TestConfig::Utilities::num_stores);
+  (1 + 16 * $CGI::Wiki::TestConfig::Utilities::num_stores);
 
 use_ok( "CGI::Wiki::Plugin::Diff" );
 
@@ -11,7 +11,7 @@ my %stores = CGI::Wiki::TestConfig::Utilities->stores;
 my ($store_name, $store);
 while ( ($store_name, $store) = each %stores ) {
     SKIP: {
-      skip "$store_name storage backend not configured for testing", 15
+      skip "$store_name storage backend not configured for testing", 16
           unless $store;
 
       print "#\n##### TEST CONFIG: Store: $store_name\n#\n";
@@ -124,5 +124,11 @@ while ( ($store_name, $store) = each %stores ) {
         			"<br />\n",
         			},
         	"Diff handles trailing whitespace correctly");
+        eval {
+               $differ->differences(
+                        node => 'Test',
+                        left_version => 1,
+                        right_version => 2 ) };
+        is( $@, "", "differences doesn't die when only difference is a newline");
     } # end of SKIP
 }

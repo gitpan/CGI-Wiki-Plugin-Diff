@@ -1,0 +1,5 @@
+Revision history for Perl extension CGI::Wiki::Plugin::Diff.
+
+0.01  Sat Nov 15 13:22:03 2003
+	- Migrated from OpenGuides::Diff.pm
+

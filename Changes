@@ -1,5 +1,9 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
+0.03  Sun Dec 07 13:24:37 2003
+	- Fix sort order for multiple metadata entries. This was
+	causing tests to fail on some platforms.
+
 0.02  Sat Dec 06 12:01:28 2003
 	- Remove absorb of trailing punctuation in words as it's
 	more trouble than it's worth. Fix dependency on CGI::Wiki.

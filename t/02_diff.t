@@ -69,7 +69,7 @@ while ( ($store_name, $store) = each %stores ) {
       				'<span class="diff2">,Real Ale\'<br />'.
       				"\nlocale='Farringdon</span>'",
       				},
-      		"Differences highlights body diff with span tags");
+      		"Differences highlights metadata diff with span tags");
       		
     } # end of SKIP
 }

@@ -3,7 +3,7 @@ package CGI::Wiki::Plugin::Diff;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use base 'CGI::Wiki::Plugin';
 use Algorithm::Diff;
@@ -77,7 +77,7 @@ sub _serialise_metadata {
     delete $metadata{__categories__checksum};
     delete $metadata{__locales__checksum};
     
-    join "<br />\n", map {"$_='".join (',',@{$metadata{$_}})."'"} sort keys %metadata;
+    join "<br />\n", map {"$_='".join (',',sort @{$metadata{$_}})."'"} sort keys %metadata;
 }
 
 sub _content_escape {

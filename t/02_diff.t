@@ -86,7 +86,7 @@ while ( ($store_name, $store) = each %stores ) {
         		right => '<span class="diff2"><br />'.
         			"\n[[IvorW's Test Page]]<br />\n</span>".
         			"<BR />metatest='".
-        			'<span class="diff2">Bleet</span>\'',
+        			'<span class="diff2">Boo</span>\'',
         			},
         	"Diff scans words correctly");
         # And now a check for framing
@@ -100,7 +100,7 @@ while ( ($store_name, $store) = each %stores ) {
       		"Diff finds the right line number on right");
         is_deeply( $bodydiff{diff}[1], {
         		left => "<BR />metatest='".
-        			'<span class="diff1">Bleet</span>\'',
+        			'<span class="diff1">Boo</span>\'',
         		right => '<span class="diff2"><br />'.
         			"\n[[Another Test Page]]<br />\n</span>".
         			"<BR />metatest='".

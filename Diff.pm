@@ -3,7 +3,7 @@ package CGI::Wiki::Plugin::Diff;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use base 'CGI::Wiki::Plugin';
 use Algorithm::Diff;
@@ -97,7 +97,7 @@ sub _intradiff {
     my $re_wordmatcher = qr(
             &.+?;                   #HTML special characters e.g. &lt;
             |<br\s*/>               #Line breaks
-            |\w+\s+       	    #Word with trailing spaces 
+            |\w+\s*       	    #Word with trailing spaces 
             |.                      #Any other single character
     )xsi;
                                              

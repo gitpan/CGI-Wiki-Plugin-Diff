@@ -1,5 +1,9 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
+0.05  Thu Dec 18 23:57:23 2003
+	- Corrected another bug in the diffing. Was not correctly
+	handling words that did not have an immediately following space.
+
 0.04  Thu Dec 18 23:07:15 2003
 	- Use VCS::Lite::Delta->hunks method call instead of 
 	breaking encapsulation (needs VCS::Lite 0.05)

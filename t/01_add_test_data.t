@@ -70,7 +70,7 @@ Ideas & things to work on:
 [[IvorW's Test Page]]\n",
 			 $i1{checksum},
 			 { username => 'Bar',
-			   metatest => 'Bleet' },
+			   metatest => 'Boo' },
 			);
 			
       my %i2 = $wiki->retrieve_node( "IvorW");

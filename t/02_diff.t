@@ -2,7 +2,7 @@ use strict;
 use CGI::Wiki;
 use CGI::Wiki::TestConfig::Utilities;
 use Test::More tests =>
-  (1 + 7 * $CGI::Wiki::TestConfig::Utilities::num_stores);
+  (1 + 9 * $CGI::Wiki::TestConfig::Utilities::num_stores);
 
 use_ok( "CGI::Wiki::Plugin::Diff" );
 
@@ -11,7 +11,7 @@ my %stores = CGI::Wiki::TestConfig::Utilities->stores;
 my ($store_name, $store);
 while ( ($store_name, $store) = each %stores ) {
     SKIP: {
-      skip "$store_name storage backend not configured for testing", 7
+      skip "$store_name storage backend not configured for testing", 9
           unless $store;
 
       print "#\n##### TEST CONFIG: Store: $store_name\n#\n";
@@ -39,6 +39,17 @@ while ( ($store_name, $store) = each %stores ) {
       			left => '',
       			right => "== Line 1 ==\n"},
       		"First element is line number on right");
+      is_deeply( $bodydiff{diff}[1], {
+      			left => '<span class="diff1">Pub </span>'.
+      				'in Clerkenwell with St Peter\'s beer.'.
+      				"<BR />category='Pubs'",
+      			right => '<span class="diff2">Tiny pub </span>'.
+      				'in Clerkenwell with St Peter\'s beer.'.
+      				'<span class="diff2"> <br />'.
+      				"\nNear Farringdon station</span>".
+      				"<BR />category='Pubs'",
+      				},
+      		"Differences highlights body diff with span tags");
       		
       # Test ->meta diff
       my %metadiff = $differ->differences(
@@ -50,5 +61,15 @@ while ( ($store_name, $store) = each %stores ) {
       			left =>  "== Line 1 ==\n",
       			right => "== Line 1 ==\n"},
       		"First element is line number on right");
+      is_deeply( $metadiff{diff}[1], {
+      			left => "Near Farringdon station".
+      				"<BR />category='Pubs'",
+      			right => "Near Farringdon station".
+      				"<BR />category='Pubs".
+      				'<span class="diff2">,Real Ale\'<br />'.
+      				"\nlocale='Farringdon</span>'",
+      				},
+      		"Differences highlights body diff with span tags");
+      		
     } # end of SKIP
 }

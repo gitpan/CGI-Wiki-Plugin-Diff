@@ -1,5 +1,9 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
+0.02  Sat Dec 06 12:01:28 2003
+	- Remove absorb of trailing punctuation in words as it's
+	more trouble than it's worth. Fix dependency on CGI::Wiki.
+
 0.01  Sat Nov 15 13:22:03 2003
 	- Migrated from OpenGuides::Diff.pm
 

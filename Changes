@@ -1,5 +1,11 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
+0.04  Thu Dec 18 23:07:15 2003
+	- Use VCS::Lite::Delta->hunks method call instead of 
+	breaking encapsulation (needs VCS::Lite 0.05)
+	- Allow selection of metadata variables
+	- Fix a bug with <BR /> tags not being handled
+
 0.03  Sun Dec 07 13:24:37 2003
 	- Fix sort order for multiple metadata entries. This was
 	causing tests to fail on some platforms.

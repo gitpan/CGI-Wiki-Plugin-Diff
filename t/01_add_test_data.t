@@ -46,6 +46,43 @@ Near Farringdon station",
                          }
                        );
 
+      $wiki->write_node( "IvorW",
+      			 "
+In real life:  Ivor Williams
+
+Ideas & things to work on:
+
+* Threaded discussion wiki
+* Generify diff
+* SuperSearch for CGI::Wiki
+* Authentication module
+* Autoindex generation
+",
+			 undef,
+			 { username => 'Foo',
+			   metatest => 'Moo' },
+			);
+
+      my %i1 = $wiki->retrieve_node( "IvorW");
+
+      $wiki->write_node( "IvorW",
+      			 $i1{content}."
+[[IvorW's Test Page]]\n",
+			 $i1{checksum},
+			 { username => 'Bar',
+			   metatest => 'Bleet' },
+			);
+			
+      my %i2 = $wiki->retrieve_node( "IvorW");
+
+      $wiki->write_node( "IvorW",
+      			 $i2{content}."
+[[Another Test Page]]\n",
+			 $i2{checksum},
+			 { username => 'Bar',
+			   metatest => 'Quack' },
+			);
+
       pass "$store_name test backend primed with test data";
 
     } # end of SKIP

@@ -2,7 +2,7 @@ use strict;
 use CGI::Wiki;
 use CGI::Wiki::TestConfig::Utilities;
 use Test::More tests =>
-  (1 + 9 * $CGI::Wiki::TestConfig::Utilities::num_stores);
+  (1 + 13 * $CGI::Wiki::TestConfig::Utilities::num_stores);
 
 use_ok( "CGI::Wiki::Plugin::Diff" );
 
@@ -11,7 +11,7 @@ my %stores = CGI::Wiki::TestConfig::Utilities->stores;
 my ($store_name, $store);
 while ( ($store_name, $store) = each %stores ) {
     SKIP: {
-      skip "$store_name storage backend not configured for testing", 9
+      skip "$store_name storage backend not configured for testing", 13
           unless $store;
 
       print "#\n##### TEST CONFIG: Store: $store_name\n#\n";
@@ -71,5 +71,41 @@ while ( ($store_name, $store) = each %stores ) {
       				},
       		"Differences highlights metadata diff with span tags");
       		
+	# Another body diff with bracketed content
+	%bodydiff = $differ->differences(
+			node => 'IvorW',
+			left_version => 1,
+			right_version => 2);
+        is_deeply( $bodydiff{diff}[0], {
+      			left => "== Line 10 ==\n",
+      			right => "== Line 10 ==\n"},
+      		"Diff finds the right line number on right");
+        is_deeply( $bodydiff{diff}[1], {
+        		left => "<BR />metatest='".
+        			'<span class="diff1">Moo</span>\'',
+        		right => '<span class="diff2"><br />'.
+        			"\n[[IvorW's Test Page]]<br />\n</span>".
+        			"<BR />metatest='".
+        			'<span class="diff2">Bleet</span>\'',
+        			},
+        	"Diff scans words correctly");
+        # And now a check for framing
+	%bodydiff = $differ->differences(
+			node => 'IvorW',
+			left_version => 2,
+			right_version => 3);
+        is_deeply( $bodydiff{diff}[0], {
+      			left => "== Line 12 ==\n",
+      			right => "== Line 12 ==\n"},
+      		"Diff finds the right line number on right");
+        is_deeply( $bodydiff{diff}[1], {
+        		left => "<BR />metatest='".
+        			'<span class="diff1">Bleet</span>\'',
+        		right => '<span class="diff2"><br />'.
+        			"\n[[Another Test Page]]<br />\n</span>".
+        			"<BR />metatest='".
+        			'<span class="diff2">Quack</span>\'',
+        			},
+        	"Diff frames correctly");
     } # end of SKIP
 }

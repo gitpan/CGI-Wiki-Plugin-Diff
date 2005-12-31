@@ -2,7 +2,7 @@ use strict;
 use CGI::Wiki;
 use CGI::Wiki::TestConfig::Utilities;
 use Test::More tests =>
-  (1 + 16 * $CGI::Wiki::TestConfig::Utilities::num_stores);
+  (1 + 17 * $CGI::Wiki::TestConfig::Utilities::num_stores);
 
 use_ok( "CGI::Wiki::Plugin::Diff" );
 
@@ -11,7 +11,7 @@ my %stores = CGI::Wiki::TestConfig::Utilities->stores;
 my ($store_name, $store);
 while ( ($store_name, $store) = each %stores ) {
     SKIP: {
-      skip "$store_name storage backend not configured for testing", 16
+      skip "$store_name storage backend not configured for testing", 17
           unless $store;
 
       print "#\n##### TEST CONFIG: Store: $store_name\n#\n";
@@ -45,7 +45,7 @@ while ( ($store_name, $store) = each %stores ) {
       				"<br />\n",
       			right => '<span class="diff2">Tiny pub </span>'.
       				'in Clerkenwell with St Peter\'s beer.'.
-      				'<span class="diff2"> <br />'.
+      				'<span class="diff2"><br />'.
       				"\nNear Farringdon station</span>".
       				"<br />\n",
       				},
@@ -107,7 +107,15 @@ while ( ($store_name, $store) = each %stores ) {
         			'<span class="diff2">Quack</span>\'',
         			},
         	"Diff frames correctly");
-	# Trailing whitespace test
+	# Trailing whitespace test 1
+	%bodydiff = $differ->differences(
+			node => 'IvorW',
+			left_version => 3,
+			right_version => 4);
+    
+    ok(!exists($bodydiff{diff}), 'No change found for trailing whitespace');
+
+	# Trailing whitespace test 2
 	%bodydiff = $differ->differences(
 			node => 'Jerusalem Tavern',
 			left_version => 3,
@@ -118,9 +126,9 @@ while ( ($store_name, $store) = each %stores ) {
       		"Diff finds the right line numbers");
         is_deeply( $bodydiff{diff}[1], {
         		left => "Tiny pub in Clerkenwell with St Peter's beer".
-        		        ". <br />\n",
+        		        ".<br />\n",
         		right => "Tiny pub in Clerkenwell with St Peter's beer".
-        			' <span class="diff2">but no food</span>. '.
+        			' <span class="diff2">but no food</span>.'.
         			"<br />\n",
         			},
         	"Diff handles trailing whitespace correctly");

@@ -94,13 +94,23 @@ Ideas & things to work on:
 			   metatest => 'Quack' },
 			);
 
+      my %i3 = $wiki->retrieve_node( "IvorW");
+      my $newcont = $i3{content};
+      $newcont =~ s/\n/ \n/s;
+      $wiki->write_node( "IvorW",
+      			 $newcont,
+			 $i3{checksum},
+			 { username => 'Bar',
+			   metatest => 'Quack' },
+			);
+
       $wiki->write_node( "Test",
       			 "a",
 			 undef,
 			 { },
 			);
 
-      my %i3 = $wiki->retrieve_node( "Test");
+      %i3 = $wiki->retrieve_node( "Test");
       
       $wiki->write_node( "Test",
       			 "a\n",

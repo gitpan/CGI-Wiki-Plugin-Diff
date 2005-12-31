@@ -3,12 +3,14 @@ package CGI::Wiki::Plugin::Diff;
 use strict;
 use warnings;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use base 'CGI::Wiki::Plugin';
 use Algorithm::Diff;
 use VCS::Lite;
-use Params::Validate qw( validate validate_pos SCALAR SCALARREF ARRAYREF HASHREF UNDEF);
+use Params::Validate::Dummy ();
+use Module::Optional qw(Params::Validate 
+        validate validate_pos SCALAR SCALARREF ARRAYREF HASHREF UNDEF);
 
 sub new {
     my $class = shift;
@@ -123,7 +125,7 @@ sub content_escape {
     $str =~ s/&/&amp;/g;
     $str =~ s/</&lt;/g;
     $str =~ s/>/&gt;/g;
-    $str =~ s!\n!<br />\n!gs;
+    $str =~ s!\s*?\n!<br />\n!gs;
 
     $str;
 }
@@ -242,23 +244,20 @@ The differences method returns a list of key/value pairs, which can be
 assigned to a hash:
 
 =over 4
-=item *
-B<left_version>
+
+=item B<left_version>
 
 The node version whose content we're considering canonical.
 
-=item *
-B<right_version>
+=item B<right_version>
 
 The node version that we're showing the differences from.
 
-=item *
-B<content> 
+=item B<content> 
 
 The (formatted) contents of the I<Left> version of the node.
 
-=item *
-B<diff> 
+=item B<diff> 
 
 An array of hashrefs of C<hunks> of differences between the
 versions. It is assumed that the display will be rendered in HTML, and SPAN
@@ -288,8 +287,7 @@ for alternative code if the module is subclassed.
 
 =over 4
 
-=item *
-B<new>
+=item B<new>
 
   my $plugin = CGI::Wiki::Plugin::Diff->new( option => value, option => value...);
 
@@ -297,22 +295,19 @@ Here, I<option> can be one of the following:
 
 =over 4
 
-=item *
-B<metadata_separator>
+=item B<metadata_separator>
 
 A string which is inserted between each metadata
 field, and also between the contents and the metadata. This defaults to 
 "E<lt>br /E<gt>\n" so as to render each metadata field on a new line.
 
-=item *
-B<line_number_format>
+=item B<line_number_format>
 
 Used to lay out the head line number for a 
 difference hunk. The string is eval'ed with $_ containing the line number.
 Default is "== Line \$_ ==" .
 
-=item *
-B<word_matcher> 
+=item B<word_matcher> 
 
 is a regular expression, used to tokenize the input
 string. This is the way of grouping together atomic sequences, so as to
@@ -325,33 +320,28 @@ give a readable result. The default is the following:
 
 =back
 
-=item *
-B<differences>
+=item B<differences>
 
 see above.
 
-=item *
-B<line_number>
+=item B<line_number>
 
 This method is called to format a line number into a suitable string.
 The supplied routine performs the necessary substitution of 
 $self->{line_number_format} using eval.
 
-=item *
-B<serialise_metadata>
+=item B<serialise_metadata>
 
 The purpose of this method is to turn a metadata hash into a string
 suitable for diffing.
 
-=item *
-B<content_escape>
+=item B<content_escape>
 
 This method is used to apply the necessary quoting or escaping of 
 characters that could appear in the content body, that could interfere
 with the rendering of the diff text.
 
-=item *
-B<intradiff>
+=item B<intradiff>
 
 This method turns an array of hunks as returned by VCS::Lite::Delta->hunks
 into a side by side diff listing, with highlights indicating different 
@@ -362,8 +352,7 @@ Currently, this is hardcoded to present the differences with HTML tags.
 This module is a prime candidate for migration into VCS::Lite, where this
 functionality really belongs.
 
-=item *
-B<get_token>
+=item B<get_token>
 
 This allows the "false positive" bug discovered by Earle Martin to be solved
 (rt.cpan.org #6284).
@@ -387,15 +376,15 @@ Move intradiff functionality into VCS::Lite.
 
 Please use rt.cpan.org to report any bugs in this module. If you have any
 ideas for how this module could be enhanced, please email the author, or
-post to the CGI::Wiki list (CGI (hyphen) wiki (hyphen) dev (at) earth (dot) li).
+post to the CGI::Wiki list (cgi (hyphen) wiki (hyphen) dev (at) earth (dot) li).
 
 =head1 AUTHOR
 
-I. P. Williams (IVORW [at] CPAN {dot} org)
+I. P. Williams (ivorw_openguides [at] xemaps {dot} com)
 
 =head1 COPYRIGHT
 
-     Copyright (C) 2003-2004 I. P. Williams (IVORW [at] CPAN {dot} org).
+     Copyright (C) 2003-2004 I. P. Williams (ivorw_openguides [at] xemaps {dot} com).
      All Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it

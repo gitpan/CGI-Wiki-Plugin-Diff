@@ -3,12 +3,12 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'CGI::Wiki::Plugin::Diff',
-    'VERSION_FROM'	=> 'Diff.pm', # finds $VERSION
+    'VERSION_FROM'	=> 'lib/CGI/Wiki/Plugin/Diff.pm', # finds $VERSION
     'PREREQ_PM'		=> {VCS::Lite => '0.05',
     			    CGI::Wiki => '0.44',
     			    Params::Validate => 0,
     			    }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM => 'Diff.pm', # retrieve abstract from module
+      (ABSTRACT_FROM => 'lib/CGI/Wiki/Plugin/Diff.pm', # retrieve abstract from module
        AUTHOR     => 'Ivor Williams (IVORW (at) cpan [dot] org)') : ()),
 );

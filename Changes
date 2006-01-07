@@ -1,6 +1,9 @@
 Revision history for Perl extension CGI::Wiki::Plugin::Diff.
 
-0.08  Sat Dev 31 2005
+0.09  Sat Jan  7 2006
+    - 0.08 missed out a change on dependencies as Module:::Optional needed.
+
+0.08  Sat Dec 31 2005
     - Fixed trailing whitespace problem (OpenGuides Trac ticket 73)
     - Made Params::Validate dependency optional
     - Added pod and pod coverage tests

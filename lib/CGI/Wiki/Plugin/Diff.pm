@@ -3,7 +3,7 @@ package CGI::Wiki::Plugin::Diff;
 use strict;
 use warnings;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 use base 'CGI::Wiki::Plugin';
 use Algorithm::Diff;
